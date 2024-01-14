@@ -9,12 +9,12 @@ export function CreateTodo({ onCreateTodo }) {
         
         <div>
             <h1> Create ToDo</h1>
-            <input id="title" type="text" placeholder="Enter Title" onChange={(e)=>{
+            <input id="title" value={title} type="text" placeholder="Enter Title" onChange={(e)=>{
                 setTitle(e.target.value)
             }} />
             <br />
             
-            <input id="desc" type="text" placeholder="Enter Description" onChange={(e)=>{
+            <input id="desc" value={desc} type="text" placeholder="Enter Description" onChange={(e)=>{
                 setDesc(e.target.value)
             }}/> <br />
 
@@ -34,6 +34,8 @@ export function CreateTodo({ onCreateTodo }) {
                         onCreateTodo();
                         setTitle("");
                         setDesc("");
+                        
+                        
                     }else{
                         console.log("error on adding new todo");
                     }

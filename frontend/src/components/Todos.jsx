@@ -1,5 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+// import PropTypes from 'prop-types';
+
 export function Todos(){
 
     const [todos, setTodos] = useState([]);
@@ -36,6 +38,11 @@ export function Todos(){
     )
         
 }
+
+// Prop validation
+// Todos.propTypes = {
+//     keyProp: PropTypes.bool.isRequired,
+// };
 
 // memoized so it only renders particular todo when it changes
 export const MemoizedTodos = React.memo(Todos);
