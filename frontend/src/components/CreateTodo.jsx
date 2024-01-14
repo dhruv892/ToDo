@@ -1,6 +1,8 @@
-import { useState } from 'react';
 
-export function CreateTodo() {
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+
+export function CreateTodo({ onCreateTodo }) {
     const [title, setTitle] = useState("")
     const [desc, setDesc] = useState("")
     return (
@@ -27,7 +29,21 @@ export function CreateTodo() {
                         description: desc
                     })
                 })
+                .then((res)=>{
+                    if(res.ok){
+                        onCreateTodo();
+                        setTitle("");
+                        setDesc("");
+                    }else{
+                        console.log("error on adding new todo");
+                    }
+                })
             }} style={{marginTop: 5}}> Enter </button>
         </div>
     )
 }
+
+// Prop validation
+CreateTodo.propTypes = {
+    onCreateTodo: PropTypes.func.isRequired,
+};
