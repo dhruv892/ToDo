@@ -1,33 +1,29 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
-export function Todos(){
-
+export function Todos({refreshTodos} ){
     const [todos, setTodos] = useState([]);
-
-    // this fetch data needs to be separate from the useEffect
-    // so that it does not go in infinite loop
-    const fetchData = () => {
-        fetch("http://localhost:3000/todos")
-        .then(async (res) => {
-            const temp = await res.json();
-            console.log(temp);
-            setTodos(temp.todos)
-        })
-    }
-
     useEffect(()=>{
+        const fetchData = () => {
+            fetch("http://localhost:3000/todos")
+            .then(async (res) => {
+                const temp = await res.json();
+                console.log(temp);
+                // handlerFunction(temp.todos)
+                setTodos(temp.todos)
+            })
+        }
         fetchData();
-    }, []);
-    console.log(todos);
+    }, [refreshTodos]);
+    
     return(   
         <div>
             {
             
-            todos.map((todo, index) => {
+            todos.map((todo) => {
                 return(
-                    <div key={index}>
+                    <div key={todo._id}>
                         <h3> {todo.title} </h3>
                         <p> {todo.description} </p>
                     </div>
@@ -40,9 +36,15 @@ export function Todos(){
 }
 
 // Prop validation
-// Todos.propTypes = {
-//     keyProp: PropTypes.bool.isRequired,
-// };
+Todos.propTypes = {
+    handlerFunction: PropTypes.func.isRequired,
+    todos: PropTypes.array.isRequired,
+};
+
+// prop validation
+Todos.propTypes = {
+    refreshTodos: PropTypes.bool.isRequired,
+}
 
 // memoized so it only renders particular todo when it changes
 export const MemoizedTodos = React.memo(Todos);

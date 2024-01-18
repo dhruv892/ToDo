@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-export function CreateTodo({ onCreateTodo }) {
+export function CreateTodo({handleRefreshTodos}) {
     const [title, setTitle] = useState("")
     const [desc, setDesc] = useState("")
     return (
@@ -31,11 +31,9 @@ export function CreateTodo({ onCreateTodo }) {
                 })
                 .then((res)=>{
                     if(res.ok){
-                        onCreateTodo();
                         setTitle("");
                         setDesc("");
-                        
-                        
+                        handleRefreshTodos();
                     }else{
                         console.log("error on adding new todo");
                     }
@@ -45,7 +43,7 @@ export function CreateTodo({ onCreateTodo }) {
     )
 }
 
-// Prop validation
+//Prop validation
 CreateTodo.propTypes = {
-    onCreateTodo: PropTypes.func.isRequired,
+    handleRefreshTodos: PropTypes.func.isRequired,
 };
