@@ -1,21 +1,25 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 export function Todos({refreshTodos} ){
     const [todos, setTodos] = useState([]);
     useEffect(()=>{
-        const fetchData = () => {
-            fetch("http://localhost:3000/todos")
-            .then(async (res) => {
-                const temp = await res.json();
+        const fetchData = async() => {
+        
+            try{
+                const temp = await axios.get("http://localhost:3000/todos");
                 console.log(temp);
-                // handlerFunction(temp.todos)
-                setTodos(temp.todos)
-            })
+                setTodos(temp.data.todos);
+            }catch(err){
+                console.log(err);
+            }
+            
+
         }
         fetchData();
-    }, [refreshTodos]);
+    }, [refreshTodos, setTodos]);
     
     return(   
         <div>
@@ -35,11 +39,11 @@ export function Todos({refreshTodos} ){
         
 }
 
-// Prop validation
-Todos.propTypes = {
-    handlerFunction: PropTypes.func.isRequired,
-    todos: PropTypes.array.isRequired,
-};
+// // Prop validation
+// Todos.propTypes = {
+//     handlerFunction: PropTypes.func.isRequired,
+//     todos: PropTypes.array.isRequired,
+// };
 
 // prop validation
 Todos.propTypes = {

@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 export function CreateTodo({handleRefreshTodos}) {
     const [title, setTitle] = useState("")
@@ -18,26 +19,20 @@ export function CreateTodo({handleRefreshTodos}) {
                 setDesc(e.target.value)
             }}/> <br />
 
-            <button onClick={() => {
-                fetch("http://localhost:3000/todo", {
-                    method: 'POST',
+            <button onClick={async () => {
+                await axios.post("http://localhost:3000/todo", {
+                    title: title,
+                    description: desc
+                },
+                {
                     headers: {
                         'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        title: title,
-                        description: desc
-                    })
-                })
-                .then((res)=>{
-                    if(res.ok){
-                        setTitle("");
-                        setDesc("");
-                        handleRefreshTodos();
-                    }else{
-                        console.log("error on adding new todo");
                     }
                 })
+                setTitle("");
+                setDesc("");
+                handleRefreshTodos();
+                
             }} style={{marginTop: 5}}> Enter </button>
         </div>
     )

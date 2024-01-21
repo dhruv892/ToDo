@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import { CreateTodo } from './components/CreateTodo.jsx'
 import { MemoizedTodos } from './components/Todos.jsx'
+import { RecoilRoot } from 'recoil'
 // import { set } from 'mongoose';
 
 function App() {
@@ -18,7 +19,9 @@ function App() {
   return (
     <>
       <CreateTodo handleRefreshTodos= {handleRefreshTodos} />
-      <MemoizedTodos refreshTodos={refreshTodos}/>
+      <RecoilRoot>
+        <MemoizedTodos refreshTodos={refreshTodos}/>
+      </RecoilRoot>
     </>
   )
 }
