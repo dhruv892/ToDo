@@ -27,10 +27,10 @@ export function Todos({refreshTodos} ){
             
             todos.map((todo) => {
                 return(
-                    <div key={todo._id}>
+                    <CardWrapper key={todo._id}>
                         <h3> {todo.title} </h3>
                         <p> {todo.description} </p>
-                    </div>
+                    </CardWrapper>
                 )
             })
         }
@@ -39,15 +39,24 @@ export function Todos({refreshTodos} ){
         
 }
 
-// // Prop validation
-// Todos.propTypes = {
-//     handlerFunction: PropTypes.func.isRequired,
-//     todos: PropTypes.array.isRequired,
-// };
+function CardWrapper({children}){
+    return(
+        <div style={{
+            border: "1px solid gray", 
+            padding: 10, 
+            margin: 10,
+            }}>
+            {children}
+        </div>
+    )
+}
 
 // prop validation
 Todos.propTypes = {
     refreshTodos: PropTypes.bool.isRequired,
+}
+CardWrapper.propTypes = {
+    children: PropTypes.node.isRequired,
 }
 
 // memoized so it only renders particular todo when it changes

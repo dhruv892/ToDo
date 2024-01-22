@@ -1,28 +1,19 @@
-import { useState } from 'react'
 import './App.css'
-import { CreateTodo } from './components/CreateTodo.jsx'
-import { MemoizedTodos } from './components/Todos.jsx'
-import { RecoilRoot } from 'recoil'
+
+import {Routes, Route} from 'react-router-dom';
+import { Home } from './pages/Home.jsx';
+import { SignIn } from './pages/SignIn.jsx';
+import { SignUp } from './pages/SignUp.jsx';
 // import { set } from 'mongoose';
 
 function App() {
-  // const [todos, setTodos] = useState([]);
-  const [refreshTodos, setRefreshTodos] = useState(false);
-
-  const handleRefreshTodos = () => {
-    setRefreshTodos(!refreshTodos);
-  }
-  // const handlerFunction = (newTodo)=>{
-  //   setTodos(newTodo);
   
-  // }
   return (
-    <>
-      <CreateTodo handleRefreshTodos= {handleRefreshTodos} />
-      <RecoilRoot>
-        <MemoizedTodos refreshTodos={refreshTodos}/>
-      </RecoilRoot>
-    </>
+    <Routes>
+      <Route path="/" element= {<Home />} />
+      <Route path="/sign-in" element= {<SignIn />} />
+      <Route path="/sign-up" element= {<SignUp />} />
+    </Routes>
   )
 }
 
