@@ -1,15 +1,20 @@
 const express = require('express');
 const cors = require('cors');
 // const { createTodoSchema } = require('./type');
-const { todo } = require('./db');
+const { Todo } = require('./db');
 const { createTodoSchema ,updateTodoSchema } = require('./type');
+const authController = require('./authController');
 
 const app = express();
 app.use(cors("http://localhost:5173/"));
 app.use(express.json());
 
+
+
+app.post('/signup', authController.signup);
+
 app.get('/todos',async (req, res) => {
-    const todos = await todo.find({});
+    const todos = await Todo.find({});
     res.json({
         todos: todos
     })
