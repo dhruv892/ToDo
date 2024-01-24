@@ -26,7 +26,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please provide us your email"],
         unique: true,
-        lowercase: true
+        lowercase: true,
+        validate: [validator.isEmail, 'Please provide a valid email']
     },
     password: {
         type: String,
@@ -57,7 +58,14 @@ userSchema.pre('save', async function(next) {
     // Delete passwordConfirm field
     this.passwordConfirm = undefined;
     next();
-  });
+});
+
+userSchema.methods.correctPassword = async function(
+    candidatePassword,
+    userPassword
+  ) {
+    return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 
 

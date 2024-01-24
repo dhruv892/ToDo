@@ -12,6 +12,7 @@ app.use(express.json());
 
 
 app.post('/signup', authController.signup);
+app.post('/login', authController.login);
 
 app.get('/todos',async (req, res) => {
     const todos = await Todo.find({});
