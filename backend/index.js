@@ -6,7 +6,7 @@ const { createTodoSchema ,updateTodoSchema } = require('./type');
 const authController = require('./authController');
 
 const app = express();
-app.use(cors("http://localhost:5173/"));
+app.use(cors("http://localhost:5174/"));
 app.use(express.json());
 
 
