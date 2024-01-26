@@ -3,7 +3,7 @@ import { MemoizedTodos } from '../components/Todos.jsx'
 import { useState } from 'react'
 
 export function Home() {
-    const [refreshTodos, setRefreshTodos] = useState(false);
+  const [refreshTodos, setRefreshTodos] = useState(false);
 
   const handleRefreshTodos = () => {
     setRefreshTodos(!refreshTodos);

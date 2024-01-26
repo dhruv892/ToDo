@@ -8,25 +8,32 @@ const signToken = id => {
     });
 }
 
-exports.signup = catchAsync(async (req, res, next) => {
-    const newUser = await User.create({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        passwordConfirm: req.body.passwordConfirm
-    });
-
-    const token = signToken(newUser._id);
-
-    res.status(201).json({
-        status: 'success',
-        token,
-        data: {
-            user: newUser
-        }
-    });
-    next();
-});
+exports.signup = async (req, res, next) => {
+    try{
+        const newUser = await User.create({
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            passwordConfirm: req.body.passwordConfirm
+        });
+    
+        const token = signToken(newUser._id);
+    
+        res.status(201).json({
+            status: 'success',
+            token,
+            data: {
+                user: newUser
+            }
+        });
+    }catch(err){
+        console.log(err.message);
+        res.status(400).json({
+            msg: err.message.split(":")[2]
+        })
+    }
+    
+};
 
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -56,4 +63,3 @@ exports.login = catchAsync(async (req, res, next) => {
         token
     });
 });
-
