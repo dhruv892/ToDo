@@ -1,34 +1,38 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import PropTypes from 'prop-types';
+import { AuthContext } from "../components/context/AuthContext";
 // import { set } from "mongoose";
 
 
 export function SignUp() {
-    const [nAme, setNAme] = useState("");
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [passwordVerify, setPasswordVerify] = useState("");
     const [err, setErr] = useState(false); 
     const [errMsg, setErrMsg] = useState("");
     const navigate = useNavigate();
+    const {setToken} = useContext(AuthContext);
+    
 
     const handleSignUp = async (e) => {
         e.preventDefault();
-        if(nAme === "" || email === "" || password === "" || passwordVerify === ""){
+        if(username === "" || password === "" || passwordVerify === ""){
+            setErr(true);
             setErrMsg("Please fill all the fields");
             return;
         }
         else{
             try{
                 const signUpData = {
-                    name: nAme,
-                    email: email,
+                    username: username,
                     password: password,
                     passwordConfirm: passwordVerify,
                 };
                 console.log(signUpData);
-                await axios.post("http://localhost:3000/signup", signUpData);
+                const res = await axios.post("http://localhost:3000/signup", signUpData);
+                setToken(res.data.token);
                 
                 navigate("/");
             }catch(err){
@@ -43,15 +47,9 @@ export function SignUp() {
         <form onSubmit={handleSignUp}>
             <input
                 type="text"
-                placeholder="name"
-                onChange={(e) => setNAme(e.target.value)}
-                value={nAme} 
-            />
-            <input
-                type="email"
-                placeholder="email"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
+                placeholder="username"
+                onChange={(e) => setUsername(e.target.value)}
+                value={username} 
             />
             <input
                 type="password"
@@ -72,3 +70,8 @@ export function SignUp() {
         }>{errMsg}</div> : null}
   </div>;
 }
+
+// prop validation
+// SignUp.propTypes = {
+//     setAuthTokenHandler: PropTypes.func.isRequired,
+// }

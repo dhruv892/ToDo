@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { AuthContext } from '../components/context/AuthContext.jsx';
+import {jwtDecode} from "jwt-decode";
+
 
 export function Todos({refreshTodos} ){
     const [todos, setTodos] = useState([]);
+    const { token } = useContext(AuthContext);
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.id;
     useEffect(()=>{
         const fetchData = async() => {
         
             try{
-                const temp = await axios.get("http://localhost:3000/todos");
+                // axios.defaults.headers.common['Authorization'] = `Bearer ${ token }`;
+                const temp = await axios.get(`http://localhost:3000/todos?userId=${userId}`, {
+                    headers: { Authorization: `Bearer ${ token }`  }
+                });
                 console.log(temp);
                 setTodos(temp.data.todos);
             }catch(err){
@@ -19,7 +28,7 @@ export function Todos({refreshTodos} ){
 
         }
         fetchData();
-    }, [refreshTodos, setTodos]);
+    }, [refreshTodos, setTodos, token, userId]);
     
     return(   
         <div>

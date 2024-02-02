@@ -13,21 +13,16 @@ mongoose.connect(process.env.MONGO_URL, {
 const todoSchema = new mongoose.Schema({
     title: String,
     description: String,
-    completed: Boolean
-})
+    completed: Boolean,
+    user: String
+})  
 
 const userSchema = new mongoose.Schema({
-    name: {
+    username: {
         type: String,
-        required: [true, "Please provide us your name"]
-    },
-    
-    email: {
-        type: String,
-        required: [true, "Please provide us your email"],
+        minlength: [4, "Username must be atleast 4 characters long"],
+        required: [true, "Please provide us your name"],
         unique: true,
-        lowercase: true,
-        validate: [validator.isEmail, 'Please provide a valid email']
     },
     password: {
         type: String,
@@ -66,6 +61,20 @@ userSchema.methods.correctPassword = async function(
   ) {
     return await bcrypt.compare(candidatePassword, userPassword);
 };
+
+// userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
+//     if (this.passwordChangedAt) {
+//         const changedTimestamp = parseInt(
+//             this.passwordChangedAt.getTime() / 1000,
+//             10
+//         );
+  
+//         return JWTTimestamp < changedTimestamp;
+//     }
+  
+//     // False means NOT changed
+//     return false;
+// };
 
 
 

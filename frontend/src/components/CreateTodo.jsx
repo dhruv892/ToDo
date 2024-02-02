@@ -1,11 +1,22 @@
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import {jwtDecode} from "jwt-decode";
+// import { useEffect } from 'react';
+import { AuthContext } from '../components/context/AuthContext.jsx';
 
 export function CreateTodo({handleRefreshTodos}) {
     const [title, setTitle] = useState("")
     const [desc, setDesc] = useState("")
+    const { token } = useContext(AuthContext);
+  
+    // console.log(token);
+    const decodedToken = jwtDecode(token);
+    const userId = `${decodedToken.id}`;
+
+    
+
     return (
         
         <div>
@@ -20,9 +31,10 @@ export function CreateTodo({handleRefreshTodos}) {
             }}/> <br />
 
             <button onClick={async () => {
-                await axios.post("http://localhost:3000/todo", {
+                await axios.post(`http://localhost:3000/todo`, {
                     title: title,
-                    description: desc
+                    description: desc,
+                    user: userId
                 },
                 {
                     headers: {
@@ -32,7 +44,7 @@ export function CreateTodo({handleRefreshTodos}) {
                 setTitle("");
                 setDesc("");
                 handleRefreshTodos();
-                
+
             }} style={{marginTop: 5}}> Enter </button>
         </div>
     )
