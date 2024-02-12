@@ -3,31 +3,17 @@ import { MemoizedTodos } from '../components/Todos.jsx'
 import { useState, useEffect, useContext } from 'react';
 // import jwt from 'jsonwebtoken';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../components/context/AuthContext.jsx';
+// import { AuthContext } from '../components/store/atoms.jsx';
+import { tokenAtom } from '../components/store/atoms.jsx';
+import { useRecoilValue } from 'recoil';
 
 export function Home() {
-  const { token } = useContext(AuthContext);
+  const token = useRecoilValue(tokenAtom);
   const navigate = useNavigate();
   const [refreshTodos, setRefreshTodos] = useState(false);
 
-  // useEffect(() => {
-  //   if(!token) {
-  //     navigate("/sign-in");
-  //   }
-  // }, [token, navigate])
-
-  // useEffect(() => {
-  //   if(token === "" || !token || token === undefined || token === null){
-      
-  //     console.log("token not found");
-  //     navigate("/sign-in");
-  //   }
-  // }, [navigate, token]);
-
-  
-
   useEffect(() => {
-    if(!token || token === "" || token === undefined || token === null) {
+    if(!token || token === "") {
       navigate("/sign-in");
     }
   }, [navigate, token])

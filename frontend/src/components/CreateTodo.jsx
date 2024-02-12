@@ -1,19 +1,19 @@
 
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import {jwtDecode} from "jwt-decode";
-// import { useEffect } from 'react';
-import { AuthContext } from '../components/context/AuthContext.jsx';
+
+import { useRecoilValue } from 'recoil';
+import { tokenAtom } from './store/atoms.jsx';
 
 export function CreateTodo({handleRefreshTodos}) {
     const [title, setTitle] = useState("")
     const [desc, setDesc] = useState("")
-    const { token } = useContext(AuthContext);
+    const  token  = useRecoilValue(tokenAtom);
   
     // console.log(token);
-    const decodedToken = jwtDecode(token);
-    const userId = `${decodedToken.id}`;
+    // const decodedToken = jwtDecode(token);
+    // const userId = `${decodedToken.id}`;
 
     
 
@@ -34,16 +34,13 @@ export function CreateTodo({handleRefreshTodos}) {
                 await axios.post(`http://localhost:3000/todo`, {
                     title: title,
                     description: desc,
-                    user: userId
                 },
                 {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                    headers: { Authorization: `Bearer ${ token }`  }
                 })
                 setTitle("");
                 setDesc("");
-                handleRefreshTodos();
+                await handleRefreshTodos();
 
             }} style={{marginTop: 5}}> Enter </button>
         </div>

@@ -2,8 +2,9 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import PropTypes from 'prop-types';
+import { useSetRecoilState } from "recoil";
+import { tokenAtom } from "../components/store/atoms.jsx";
 
-import { AuthContext} from '../components/context/AuthContext.jsx';
 
 
 export function SignIn( ) {
@@ -12,7 +13,7 @@ export function SignIn( ) {
     const [err, setErr] = useState(false);
     const [errMsg, setErrMsg] = useState("");
     const navigate = useNavigate();
-    const { token, setToken } = useContext(AuthContext);
+    const setToken = useSetRecoilState(tokenAtom);
 
     const handleSignIn = async (e) => {
         e.preventDefault();

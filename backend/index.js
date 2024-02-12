@@ -17,7 +17,7 @@ app.post('/login', authController.login);
 
 app.get('/todos', authController.protect,async (req, res) => {
     try{
-        const userId = req.query.userId;
+        const userId = req.user._id;
         const todos = await Todo.find({user: userId});
         res.json({
         todos: todos
@@ -29,8 +29,12 @@ app.get('/todos', authController.protect,async (req, res) => {
     }
     
 })
-app.post('/todo',async (req, res) => {
-    const createPayLoad = req.body;
+app.post('/todo', authController.protect,async (req, res) => {
+    const createPayLoad = {
+        title: req.body.title,
+        description: req.body.description,
+        user: req.user._id.toString()
+    };
     console.log(createPayLoad);
     const parsedPayload = await createTodoSchema.safeParse(createPayLoad);
     // const userId = req.query.userId;

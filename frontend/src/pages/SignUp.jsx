@@ -2,7 +2,8 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
-import { AuthContext } from "../components/context/AuthContext";
+import { useSetRecoilState } from "recoil";
+import { tokenAtom } from "../components/store/atoms";
 // import { set } from "mongoose";
 
 
@@ -13,7 +14,7 @@ export function SignUp() {
     const [err, setErr] = useState(false); 
     const [errMsg, setErrMsg] = useState("");
     const navigate = useNavigate();
-    const {setToken} = useContext(AuthContext);
+    const setToken = useSetRecoilState(tokenAtom);
     
 
     const handleSignUp = async (e) => {
