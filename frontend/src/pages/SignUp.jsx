@@ -1,11 +1,8 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import PropTypes from 'prop-types';
 import { useSetRecoilState } from "recoil";
 import { tokenAtom } from "../components/store/atoms";
-// import { set } from "mongoose";
-
 
 export function SignUp() {
     const [username, setUsername] = useState("");
@@ -71,8 +68,3 @@ export function SignUp() {
         }>{errMsg}</div> : null}
   </div>;
 }
-
-// prop validation
-// SignUp.propTypes = {
-//     setAuthTokenHandler: PropTypes.func.isRequired,
-// }
